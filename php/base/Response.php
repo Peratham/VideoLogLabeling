@@ -3,6 +3,9 @@ namespace app;
 
 /**
  * Description of Response
+ * 
+ * @property Cookie $cookie the cookie of this response
+ * @property int $statusCode the status code of this response
  *
  * @author Philipp Strobel <philippstrobel@posteo.de>
  */
@@ -17,6 +20,11 @@ class Response extends Component
     public $content = '';
     
     /**
+     * @var Cookie the cookie for the response
+     */
+    private  $_cookie;
+    
+    /**
      * @var integer the HTTP status code to send with the response.
      */
     private $_statusCode = 200;
@@ -27,6 +35,7 @@ class Response extends Component
             return;
         }
         $this->sendHeader();
+        $this->sendCookies();
         $this->sendContent();
     }
     
@@ -36,6 +45,16 @@ class Response extends Component
             header("$key: $value");
         }
         http_response_code($this->getStatusCode());
+    }
+    
+    private function sendCookies() {
+        if($this->_cookie === NULL) {
+            return;
+        }
+        foreach ($this->_cookie->getData() as $key => $value) {
+            // TODO: should the value/key be encrypted before sending to client? -> security concern ...
+            setcookie($key, $value['value'], $value['expire'], $value['path'], $value['domain'], $value['secure'], $value['httpOnly']);
+        }
     }
     
     private function sendContent() {
@@ -79,5 +98,16 @@ class Response extends Component
                 $this->_header['Content-Type'] = 'text/html; charset=UTF-8';
                 break;
         }
+    }
+    
+    /**
+     * Returns the cookie for this response.
+     * @return Cookie
+     */
+    public function getCookie() {
+        if($this->_cookie === NULL) {
+            $this->_cookie = new Cookie();
+        }
+        return $this->_cookie;
     }
 }

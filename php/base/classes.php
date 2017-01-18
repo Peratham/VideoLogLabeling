@@ -12,6 +12,7 @@ return [
     'app\Url' => APP_PATH . '/Url.php',
     'app\Request' => APP_PATH . '/Request.php',
     'app\Response' => APP_PATH . '/Response.php',
+    'app\Cookie' => APP_PATH . '/Cookie.php',
     'app\Helper' => APP_PATH . '/Helper.php',
     'app\VarDumper' => APP_PATH . '/VarDumper.php',
     'app\ErrorHandler' => APP_PATH . '/exceptions/ErrorHandler.php',

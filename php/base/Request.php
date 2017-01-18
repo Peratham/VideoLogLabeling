@@ -9,6 +9,7 @@ namespace app;
  * @property boolean $isPost if the current request is an POST request
  * @property string $route the current (requested) route of this request (without trailing "/")
  * @property string $type the type of the request (GET, PUT, ...)
+ * @property Cookie $cookie the cookie of the current request
  *
  * @author Philipp Strobel <philippstrobel@posteo.de>
  */
@@ -18,6 +19,7 @@ class Request extends Component
     private $_module;
     private $_controller;
     private $_action;
+    private $_cookie;
     
     protected function init() {
         /**
@@ -118,5 +120,19 @@ class Request extends Component
             return $_POST;
         }
         return isset($_POST[$name]) ? $_POST[$name] : $default;
+    }
+    
+    /**
+     * Returns the cookie data of this request.
+     * @return Cookie
+     */
+    public function getCookie() {
+        if($this->_cookie === NULL) {
+            $this->_cookie = new Cookie();
+            foreach ($_COOKIE as $key => $value) {
+                $this->_cookie->setValue($key, $value);
+            }
+        }
+        return $this->_cookie;
     }
 }
