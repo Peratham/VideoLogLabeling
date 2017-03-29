@@ -13,10 +13,13 @@ return [
     'app\Request' => APP_PATH . '/Request.php',
     'app\Response' => APP_PATH . '/Response.php',
     'app\Cookie' => APP_PATH . '/Cookie.php',
+    'app\Session' => APP_PATH . '/Session.php',
+    'app\User' => APP_PATH . '/User.php',
     'app\Helper' => APP_PATH . '/Helper.php',
     'app\VarDumper' => APP_PATH . '/VarDumper.php',
     'app\ErrorHandler' => APP_PATH . '/exceptions/ErrorHandler.php',
     'app\Exception' => APP_PATH . '/exceptions/Exception.php',
     'app\HttpException' => APP_PATH . '/exceptions/HttpException.php',
     'app\NotFoundHttpException' => APP_PATH . '/exceptions/NotFoundHttpException.php',
+    'app\ForbiddenHttpException' => APP_PATH . '/exceptions/ForbiddenHttpException.php',
 ];

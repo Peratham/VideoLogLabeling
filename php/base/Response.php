@@ -110,4 +110,10 @@ class Response extends Component
         }
         return $this->_cookie;
     }
+    
+    public function redirect($url, $statusCode = 302) {
+        $this->_header['Location'] = Url::to($url);
+        $this->setStatusCode($statusCode);
+        return $this;
+    }
 }

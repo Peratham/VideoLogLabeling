@@ -1,5 +1,7 @@
 #general
 nbproject/
+.idea/
+
 #.htaccess
 
 #python

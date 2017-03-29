@@ -17,6 +17,8 @@ defined('APP_DEBUG') or define('APP_DEBUG', FALSE);
  * @property Request $request the current request
  * @property Response $response the current Response
  * @property UrlManager $urlmanager the url manager of this application
+ * @property Session $session the current Session
+ * @property User $user the current user
  * 
  * @author Philipp Strobel <philippstrobel@posteo.de>
  */
@@ -62,6 +64,14 @@ class Application extends Module
      * @var Response the read-only response component
      */
     private $_response;
+    /**
+     * @var Session the read-only session component
+     */
+    private $_session;
+    /**
+     * @var User the read-only user component
+     */
+    private $_user;
 
     /**
      * Constructor
@@ -165,6 +175,28 @@ class Application extends Module
             $this->_response = new Response();
         }
         return $this->_response;
+    }
+    
+    /**
+     * Returns the session component.
+     * @return Session the session component
+     */
+    public function getSession() {
+        if($this->_session === NULL) {
+            $this->_session = new Session();
+        }
+        return $this->_session;
+    }
+    
+    /**
+     * Returns the user component.
+     * @return User the user component
+     */
+    public function getUser() {
+        if($this->_user === NULL) {
+            $this->_user = new User();
+        }
+        return $this->_user;
     }
 
     /**

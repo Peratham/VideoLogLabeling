@@ -27,6 +27,10 @@ class Controller extends Component
         $id = strtolower(str_replace('Controller','',get_called_class()));
         return substr($id, strrpos($id, '\\')+1);
     }
+    
+    protected function access($action) {
+        return TRUE;
+    }
 
     /**
      * 
@@ -46,7 +50,19 @@ class Controller extends Component
         $methodArgs = [];
 //        VarDumper::dump($methodName);
         if (method_exists($this, $methodName)) {
-            $response = call_user_func_array([$this, $methodName], $methodArgs);
+            if($this->access($action)) {
+                $response = call_user_func_array([$this, $methodName], $methodArgs);
+            } else {
+                if(Application::$app->user->loginUrl !== NULL) {
+                    // TODO: set "returnURL" (where should we return to after successfull login?!)
+                    if(Application::$app->request->isGet) {
+                        Application::$app->session->set(Application::$app->user->returnUrlKey, Application::$app->request->route);
+                    }
+                    $response = Application::$app->response->redirect(Application::$app->user->loginUrl);
+                } else {
+                    throw new ForbiddenHttpException('Login Required!');
+                }
+            }
 //            VarDumper::dump($response);
 //            VarDumper::dump($this->resolveLayout());
             if(is_string($response)) {

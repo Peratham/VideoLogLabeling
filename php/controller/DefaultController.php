@@ -84,5 +84,31 @@ class DefaultController extends \app\Controller
         }
         return json_encode($result);
     }
+    
+    public function actionLogin() {
+        if(!Application::$app->user->isGuest) {
+            return Application::$app->response->redirect(\app\Url::home());
+        }
+        $error = '';
+        if(Application::$app->request->isPost) {
+            $login = Application::$app->request->post('Login');
+            if(!empty($login)) {
+                // TODO:
+                if(isset($login['mail']) && $login['mail'] === 'nao-team@informatik.hu-berlin.de' 
+                && isset($login['password']) && $login['password'] === '1234') {
+                    return Application::$app->response->redirect(\app\Application::$app->session->has(\app\Application::$app->user->returnUrlKey) ? \app\Url::to([\app\Application::$app->session->get(\app\Application::$app->user->returnUrlKey)]) : \app\Url::home());
+                } else {
+                    $error = 'Incorrect username or password.';
+                }
+            }
+        }
+        
+        return $this->render('login', ['error'=>$error]);
+    }
+
+    public function actionLogout() {
+        // TODO: implement logout!
+        return Application::$app->response->redirect(\app\Url::home());
+    }
 
 }
