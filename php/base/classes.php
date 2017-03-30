@@ -6,6 +6,7 @@
 return [
     'app\Component' => APP_PATH . '/Component.php',
     'app\Module' => APP_PATH . '/Module.php',
+    'app\Model' => APP_PATH . '/Model.php',
     'app\Controller' => APP_PATH . '/Controller.php',
     'app\View' => APP_PATH . '/View.php',
     'app\UrlManager' => APP_PATH . '/UrlManager.php',
@@ -15,6 +16,8 @@ return [
     'app\Cookie' => APP_PATH . '/Cookie.php',
     'app\Session' => APP_PATH . '/Session.php',
     'app\User' => APP_PATH . '/User.php',
+    'app\IdentityInterface' => APP_PATH . '/IdentityInterface.php',
+    'app\Html' => APP_PATH . '/Html.php',
     'app\Helper' => APP_PATH . '/Helper.php',
     'app\VarDumper' => APP_PATH . '/VarDumper.php',
     'app\ErrorHandler' => APP_PATH . '/exceptions/ErrorHandler.php',

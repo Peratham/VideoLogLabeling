@@ -93,9 +93,8 @@ class DefaultController extends \app\Controller
         if(Application::$app->request->isPost) {
             $login = Application::$app->request->post('Login');
             if(!empty($login)) {
-                // TODO:
-                if(isset($login['mail']) && $login['mail'] === 'nao-team@informatik.hu-berlin.de' 
-                && isset($login['password']) && $login['password'] === '1234') {
+                $user = \app\models\UserIdentity::findIdentityByUsername($login['mail']);
+                if($user !== NULL && $user->validatePassword($login['password'])) {
                     return Application::$app->response->redirect(\app\Application::$app->session->has(\app\Application::$app->user->returnUrlKey) ? \app\Url::to([\app\Application::$app->session->get(\app\Application::$app->user->returnUrlKey)]) : \app\Url::home());
                 } else {
                     $error = 'Incorrect username or password.';
