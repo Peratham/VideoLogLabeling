@@ -18,6 +18,7 @@ return [
     'app\User' => APP_PATH . '/User.php',
     'app\IdentityInterface' => APP_PATH . '/IdentityInterface.php',
     'app\Html' => APP_PATH . '/Html.php',
+    'app\Validator' => APP_PATH . '/Validator.php',
     'app\Helper' => APP_PATH . '/Helper.php',
     'app\VarDumper' => APP_PATH . '/VarDumper.php',
     'app\ErrorHandler' => APP_PATH . '/exceptions/ErrorHandler.php',

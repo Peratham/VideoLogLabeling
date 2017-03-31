@@ -52,8 +52,8 @@ abstract class Model extends Component
         $this->_errors[$attribute][] = $message;
     }
     
-    public function hasError($attribute) {
-        return isset($this->_errors[$attribute]) && !empty($this->_errors[$attribute]);
+    public function hasErrors($attribute = NULL) {
+        return $attribute === null ? !empty($this->_errors) : isset($this->_errors[$attribute]);
     }
     
     public function getErrors($attribute = NULL) {
@@ -61,6 +61,10 @@ abstract class Model extends Component
             return $this->_errors === null ? [] : $this->_errors;
         }
         return isset($this->_errors[$attribute]) ? $this->_errors[$attribute] : [];
+    }
+    
+    public function getFirstError($attribute) {
+        return isset($this->_errors[$attribute]) ? reset($this->_errors[$attribute]) : NULL;
     }
     
     public function clearErrors($attribute = NULL) {

@@ -20,6 +20,13 @@ $this->registerCss('
                 <h1>Upload new game</h1>
             </div>
         </div>
+        <?php if ($model->hasErrors()) : ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <?=  app\Html::getErrorSummary($model, [])?>
+            </div>
+        </div>
+        <?php endif; ?>
         <form action="" method="post" id="new_game">
             <div class="row">
                 <div class="col-sm-12">
@@ -28,15 +35,17 @@ $this->registerCss('
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group required">
+                                    <div class="form-group required <?=$model->hasErrors('name')?'has-error':''?>">
                                         <?=app\Html::activeLabel($model, 'name', ['label'=>'Event'])?>
-                                        <?=app\Html::activeInput($model, 'name', ['class'=>'form-control', 'placeholder'=>'Name of the event'])?>
+                                        <?=app\Html::activeInput($model, 'name', ['class'=>'form-control', 'maxlength'=>'50', 'placeholder'=>'Name of the event'])?>
+                                        <?=app\Html::activeError($model, 'name', [], TRUE)?>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group required">
+                                    <div class="form-group required <?=$model->hasErrors('name')?'has-error':''?>">
                                         <?=app\Html::activeLabel($model, 'date', ['label'=>'Date'])?>
                                         <?=app\Html::activeInput($model, 'date', ['type'=>'date', 'class'=>'form-control', 'placeholder'=>'Date'])?>
+                                        <?=app\Html::activeError($model, 'name', [], TRUE)?>
                                     </div>
                                 </div>
                             </div>

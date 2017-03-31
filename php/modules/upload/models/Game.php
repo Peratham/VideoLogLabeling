@@ -1,6 +1,8 @@
 <?php
 namespace app\modules\upload\models;
 
+use app\Validator;
+
 /**
  * Description of Game
  *
@@ -28,7 +30,13 @@ class Game extends \app\Model
 
     public function validate() {
         // TODO: implement game validate method
-        return FALSE;
+        Validator::required($this, 'name');
+        Validator::maxLength($this, 'name', 50);
+        
+        Validator::required($this, 'date');
+        Validator::date($this, 'date');
+        
+        return !$this->hasErrors();
     }
 
 }
