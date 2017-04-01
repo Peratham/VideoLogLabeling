@@ -27,7 +27,7 @@ class Html
     }
     
     public static function activeInput($model, $attribute, $options) {
-        $defaults = ['type'=>'text', 'value'=>$model->$attribute];
+        $defaults = ['type'=>'text', 'value'=>$model->$attribute, 'class'=>'form-control'];
         if(!isset($options['name'])) {
             $defaults['name'] = static::generateName($model, $attribute);
         }
@@ -47,7 +47,7 @@ class Html
     }
     
     public static function activeDropdown($model, $attribute, $options) {
-        $defaults = [];
+        $defaults = ['class'=>'form-control'];
         if(!isset($options['name'])) {
             $defaults['name'] = static::generateName($model, $attribute);
         }
@@ -112,5 +112,30 @@ class Html
             return $message;
         }
         return '';
+    }
+    
+    public static function activeFormField($model, $attribute, $options = []) {
+        $template = Helper::removeArrayKey($options, 'template', "{beginWrapper}\n{label}\n{input}\n{error}\n{endWrappter}");
+        $labelOptions = Helper::removeArrayKey($options, 'labelOptions', []);
+        $inputOptions = Helper::removeArrayKey($options, 'inputOptions', []);
+        $errorOptions = Helper::removeArrayKey($options, 'errorOptions', []);
+        $required = Helper::removeArrayKey($options, 'required', FALSE);
+        
+        if(!isset($options['class'])) { $options['class'] = 'form-group'; }
+        if(is_bool($required) && $required) { $options['class'].=' required'; }
+        if($model->hasErrors($attribute)) { $options['class'].=' has-error'; }
+        
+        $parts = ['{beginWrapper}'=>'<div '.static::generateOptions($options).'>', '{endWrappter}'=>'</div>'];
+        $parts['{label}'] = static::activeLabel($model, $attribute, $labelOptions);
+        if(isset($inputOptions['type']) && $inputOptions['type'] === 'dropdown') {
+            Helper::removeArrayKey($inputOptions, 'type');
+            $parts['{input}'] = static::activeDropdown($model, $attribute, $inputOptions);
+        } else {
+            $parts['{input}'] = static::activeInput($model, $attribute, $inputOptions);
+        }
+        
+        $parts['{error}'] = static::activeError($model, $attribute, $errorOptions, TRUE);
+        
+        return strtr($template, $parts);
     }
 }

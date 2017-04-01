@@ -2,6 +2,8 @@
 /* @var $this app\View */
 /* @var $model \app\modules\upload\models\Game */
 
+use app\Html;
+
 $this->title = 'Upload ::: ' . \app\Application::$app->name;
 
 $this->registerCssFile('style.css');
@@ -11,7 +13,6 @@ $this->registerCss('
         font-size: 125%;
     }
 ');
-// TODO: display errors
 ?>
 <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
@@ -23,7 +24,7 @@ $this->registerCss('
         <?php if ($model->hasErrors()) : ?>
         <div class="row">
             <div class="col-sm-12">
-                <?=  app\Html::getErrorSummary($model, [])?>
+                <?=Html::getErrorSummary($model, [])?>
             </div>
         </div>
         <?php endif; ?>
@@ -35,18 +36,10 @@ $this->registerCss('
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group required <?=$model->hasErrors('name')?'has-error':''?>">
-                                        <?=app\Html::activeLabel($model, 'name', ['label'=>'Event'])?>
-                                        <?=app\Html::activeInput($model, 'name', ['class'=>'form-control', 'maxlength'=>'50', 'placeholder'=>'Name of the event'])?>
-                                        <?=app\Html::activeError($model, 'name', [], TRUE)?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'name', ['required'=>TRUE, 'labelOptions'=>['label'=>'Event'], 'inputOptions'=>['maxlength'=>'50', 'placeholder'=>'Name of the event']])?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group required <?=$model->hasErrors('name')?'has-error':''?>">
-                                        <?=app\Html::activeLabel($model, 'date', ['label'=>'Date'])?>
-                                        <?=app\Html::activeInput($model, 'date', ['type'=>'date', 'class'=>'form-control', 'placeholder'=>'Date'])?>
-                                        <?=app\Html::activeError($model, 'name', [], TRUE)?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'date', ['required'=>TRUE, 'labelOptions'=>['label'=>'Date'], 'inputOptions'=>['type'=>'date', 'placeholder'=>'Date']])?>
                                 </div>
                             </div>
                         </div>
@@ -58,18 +51,9 @@ $this->registerCss('
                     <div class="panel panel-default">
                         <div class="panel-heading">Team #1</div>
                         <div class="panel-body">
-                            <div class="form-group required">
-                                <?=app\Html::activeLabel($model, 'team1_id', ['label'=>'Name'])?>
-                                <?=app\Html::activeDropdown($model, 'team1_id', ['class'=>'form-control', 'items'=>\app\Application::$app->params['teams'], 'prompt'=>''])?>
-                            </div>
-                            <div class="form-group">
-                                <?=app\Html::activeLabel($model, 'team1_half1', ['label'=>'First half log files'])?>
-                                <?=app\Html::activeInput($model, 'team1_half1', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                            </div>
-                            <div class="form-group">
-                                <?=app\Html::activeLabel($model, 'team1_half2', ['label'=>'Second half log files'])?>
-                                <?=app\Html::activeInput($model, 'team1_half2', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                            </div>
+                            <?=Html::activeFormField($model, 'team1_id', ['required'=>TRUE, 'labelOptions'=>['label'=>'Name'], 'inputOptions'=>['type'=>'dropdown', 'items'=>\app\Application::$app->params['teams'], 'prompt'=>'']])?>
+                            <?=Html::activeFormField($model, 'team1_half1', ['labelOptions'=>['label'=>'First half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
+                            <?=Html::activeFormField($model, 'team1_half2', ['labelOptions'=>['label'=>'Second half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                         </div>
                     </div>
                 </div>
@@ -77,18 +61,9 @@ $this->registerCss('
                     <div class="panel panel-default">
                         <div class="panel-heading">Team #2</div>
                         <div class="panel-body">
-                            <div class="form-group required">
-                                <?=app\Html::activeLabel($model, 'team2_id', ['label'=>'Name'])?>
-                                <?=app\Html::activeDropdown($model, 'team2_id', ['class'=>'form-control', 'items'=>\app\Application::$app->params['teams'], 'prompt'=>''])?>
-                            </div>
-                            <div class="form-group">
-                                <?=app\Html::activeLabel($model, 'team2_half1', ['label'=>'First half log files'])?>
-                                <?=app\Html::activeInput($model, 'team2_half1', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                            </div>
-                            <div class="form-group">
-                                <?=app\Html::activeLabel($model, 'team2_half2', ['label'=>'Second half log files'])?>
-                                <?=app\Html::activeInput($model, 'team2_half2', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                            </div>
+                            <?=Html::activeFormField($model, 'team2_id', ['required'=>TRUE, 'labelOptions'=>['label'=>'Name'], 'inputOptions'=>['type'=>'dropdown', 'items'=>\app\Application::$app->params['teams'], 'prompt'=>'']])?>
+                            <?=Html::activeFormField($model, 'team2_half1', ['labelOptions'=>['label'=>'First half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
+                            <?=Html::activeFormField($model, 'team2_half2', ['labelOptions'=>['label'=>'Second half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                         </div>
                     </div>
                 </div>
@@ -100,16 +75,10 @@ $this->registerCss('
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <?=app\Html::activeLabel($model, 'gc_half1', ['label'=>'First half log files'])?>
-                                        <?=app\Html::activeInput($model, 'gc_half1', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'gc_half1', ['labelOptions'=>['label'=>'First half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <?=app\Html::activeLabel($model, 'gc_half2', ['label'=>'Second half log files'])?>
-                                        <?=app\Html::activeInput($model, 'gc_half2', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'gc_half2', ['labelOptions'=>['label'=>'Second half log files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                                 </div>
                             </div>
                         </div>
@@ -123,16 +92,10 @@ $this->registerCss('
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <?=app\Html::activeLabel($model, 'video_half1', ['label'=>'First half video files'])?>
-                                        <?=app\Html::activeInput($model, 'video_half1', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'video_half1', ['labelOptions'=>['label'=>'First half video files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <?=app\Html::activeLabel($model, 'video_half2', ['label'=>'Second half video files'])?>
-                                        <?=app\Html::activeInput($model, 'video_half2', ['type'=>'file', 'class'=>'form-control', 'placeholder'=>'file'])?>
-                                    </div>
+                                    <?=Html::activeFormField($model, 'video_half1', ['labelOptions'=>['label'=>'Second half video files'], 'inputOptions'=>['type'=>'file', 'placeholder'=>'file']])?>
                                 </div>
                             </div>
                         </div>
