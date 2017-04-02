@@ -48,6 +48,11 @@ class Application extends Module
      */
     public $name = 'VideoLogLabeling';
     /**
+     *
+     * @var mixed[] configurations for the various application components 
+     */
+    public $components = [];
+    /**
      * @var mixed[] the parameter for this application defined as name-value pairs
      */
     public $params = [];
@@ -194,7 +199,7 @@ class Application extends Module
      */
     public function getUser() {
         if($this->_user === NULL) {
-            $this->_user = new User();
+            $this->_user = new User($this->getComponentConfig('user'));
         }
         return $this->_user;
     }
@@ -257,5 +262,17 @@ class Application extends Module
      */
     public function getParam($key, $default = NULL) {
         return isset($this->params[$key]) ? $this->params[$key] : $default;
+    }
+    
+    /**
+     * Returns the configuration for the given component or the default config,
+     * if there's no component configuration set.
+     * 
+     * @param string $component the name of the component
+     * @param mixed[] $default the default configuration for the component
+     * @return mixed[] the component configuration
+     */
+    public function getComponentConfig($component, $default = []) {
+        return isset($this->components[$component]) ? $this->components[$component] : $default;
     }
 }

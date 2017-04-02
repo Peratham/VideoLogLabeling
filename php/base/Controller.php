@@ -56,9 +56,9 @@ class Controller extends Component
                 if(Application::$app->user->loginUrl !== NULL) {
                     // TODO: set "returnURL" (where should we return to after successfull login?!)
                     if(Application::$app->request->isGet) {
-                        Application::$app->session->set(Application::$app->user->returnUrlKey, Application::$app->request->route);
+                        Application::$app->user->setReturnUrl(Application::$app->request->route);
                     }
-                    $response = Application::$app->response->redirect(Application::$app->user->loginUrl);
+                    $response = $this->redirect(Application::$app->user->loginUrl);
                 } else {
                     throw new ForbiddenHttpException('Login Required!');
                 }
@@ -141,4 +141,12 @@ class Controller extends Component
         return NULL;
     }
     
+    /**
+     * Shortcut function for a 'redirect' response.
+     * @param string $url the url where should be redirected to.
+     * @return Response the response object
+     */
+    public function redirect($url) {
+        return Application::$app->response->redirect($url);
+    }
 }

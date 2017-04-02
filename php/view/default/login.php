@@ -1,7 +1,10 @@
 <?php
 /* @var $this app\View */
+/* @var $model \app\models\User */
 
-$this->title = \app\Application::$app->name . ' ::: Login';
+use app\Html;
+
+$this->title = 'Login ::: '.\app\Application::$app->name;
 $this->registerCssFile('style.css');
 
 $hasError = !empty($error);
@@ -12,28 +15,25 @@ $hasError = !empty($error);
         <div class="row">
             <div class="col-sm-12">
                 <p>Please fill out the following fields to login:</p>
-                <form action="<?=\app\Url::to([''])?>" method="post" class="form-horizontal <?=$hasError?'has-error':''?>">
+                <form action="<?=\app\Url::to([''])?>" method="post" class="form-horizontal <?=$model->hasErrors()?'has-error':''?>">
                     <?=$hasError?'<div class="alert alert-danger" role="alert">'.$error.'</div>':''?>
                     <div class="form-group">
-                        <label for="login_mail" class="col-sm-2 control-label">Email</label>
+                        <?=Html::activeLabel($model, 'username', ['label'=>'Email', 'class'=>'col-sm-2 control-label'])?>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="login_mail" name="Login[mail]" placeholder="Email">
+                            <?=Html::activeInput($model, 'username', ['type'=>'email', 'placeholder'=>'Email'])?>
+                            <?=Html::activeError($model, 'username', [], TRUE)?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="login_pass" class="col-sm-2 control-label">Password</label>
+                        <?=Html::activeLabel($model, 'password', ['label'=>'Password', 'class'=>'col-sm-2 control-label'])?>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="login_pass" name="Login[password]" placeholder="Password">
+                            <?=Html::activeInput($model, 'password', ['type'=>'password', 'placeholder'=>'Password'])?>
+                            <?=Html::activeError($model, 'password', [], TRUE)?>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="hidden" name="Login[remember]" value="0">
-                                    <input type="checkbox" name="Login[remember]" value="1"> Remember me
-                                </label>
-                            </div>
+                            <?=Html::activeCheckbox($model, 'remember', ['label'=>'Remember me'])?>
                         </div>
                     </div>
                     <div class="form-group">

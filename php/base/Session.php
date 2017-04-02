@@ -78,6 +78,19 @@ class Session extends Component implements \ArrayAccess {
         return NULL;
     }
     
+    public function destroy() {
+        if ($this->isActive()) {
+            session_unset();
+            session_destroy();
+        }
+    }
+    
+    public function regenerateId($delete_old_session = false) {
+        if($this->isActive()) {
+            @session_regenerate_id($delete_old_session);
+        }
+    }
+    
     public function has($key) {
         $this->start();
         return isset($_SESSION[$key]);

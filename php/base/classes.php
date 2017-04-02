@@ -26,4 +26,7 @@ return [
     'app\HttpException' => APP_PATH . '/exceptions/HttpException.php',
     'app\NotFoundHttpException' => APP_PATH . '/exceptions/NotFoundHttpException.php',
     'app\ForbiddenHttpException' => APP_PATH . '/exceptions/ForbiddenHttpException.php',
+    'app\UnknownPropertyException' => APP_PATH . '/exceptions/UnknownPropertyException.php',
+    'app\InvalidValueException' => APP_PATH . '/exceptions/InvalidValueException.php',
+    'app\InvalidConfigException' => APP_PATH . '/exceptions/InvalidConfigException.php',
 ];

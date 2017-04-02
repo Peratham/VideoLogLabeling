@@ -165,6 +165,15 @@ class Cookie implements \ArrayAccess
     }
     
     /**
+     * Removes a cookie item.
+     * 
+     * @param string $key the name of the cookie item, which should be removed
+     */
+    public function remove($key) {
+        unset($this->data[$key]);
+    }
+    
+    /**
      * Assigns a value to the specified cookie item.
      * 
      * @param string $key the name of the cookie item
@@ -190,7 +199,7 @@ class Cookie implements \ArrayAccess
      * @param string $key the name of the cookie item, which should be removed
      */
     public function offsetUnset($key) {
-        unset($this->data[$key]);
+        $this->remove($key);
     }
 
     /**

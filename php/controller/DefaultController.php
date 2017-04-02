@@ -87,27 +87,21 @@ class DefaultController extends \app\Controller
     
     public function actionLogin() {
         if(!Application::$app->user->isGuest) {
-            return Application::$app->response->redirect(\app\Url::home());
+            return $this->redirect(\app\Url::home());
         }
-        $error = '';
-        if(Application::$app->request->isPost) {
-            $login = Application::$app->request->post('Login');
-            if(!empty($login)) {
-                $user = \app\models\UserIdentity::findIdentityByUsername($login['mail']);
-                if($user !== NULL && $user->validatePassword($login['password'])) {
-                    return Application::$app->response->redirect(\app\Application::$app->session->has(\app\Application::$app->user->returnUrlKey) ? \app\Url::to([\app\Application::$app->session->get(\app\Application::$app->user->returnUrlKey)]) : \app\Url::home());
-                } else {
-                    $error = 'Incorrect username or password.';
-                }
+        $model = new \app\models\User();
+        if(Application::$app->request->isPost && $model->load(Application::$app->request->post('User'))) {
+            if($model->validate() && Application::$app->user->login($model, $model->remember ? 3600*24*30 : 0)) {
+                return $this->redirect(Application::$app->user->getReturnUrl());
             }
         }
         
-        return $this->render('login', ['error'=>$error]);
+        return $this->render('login', ['model'=>$model]);
     }
 
     public function actionLogout() {
-        // TODO: implement logout!
-        return Application::$app->response->redirect(\app\Url::home());
+        Application::$app->user->logout();
+        return $this->redirect(\app\Url::home());
     }
 
 }

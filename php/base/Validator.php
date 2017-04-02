@@ -31,4 +31,13 @@ class Validator
         }
         return TRUE;
     }
+    
+    public static function boolean($model, $attribute, $message = NULL) {
+        $val = $model->$attribute;
+        if( !(($val === TRUE || $val === 1 || $val === '1') || ($val === FALSE || $val === 0 || $val === '0')) ) {
+            $model->addError($attribute, $message!==NULL?$message:ucfirst($attribute).' must be either "true" or "false".');
+            return FALSE;
+        }
+        return TRUE;
+    }
 }

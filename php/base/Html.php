@@ -12,7 +12,11 @@ class Html
         $options = array_merge($default, $options);
         $result = '';
         foreach ($options as $key => $value) {
-            $result .= $key . '="'.$value.'" ';
+            if(is_bool($value)) {
+                $result .= $key;
+            } else {
+                $result .= $key . '="'.$value.'" ';
+            }
         }
         return $result;
     }
@@ -137,5 +141,20 @@ class Html
         $parts['{error}'] = static::activeError($model, $attribute, $errorOptions, TRUE);
         
         return strtr($template, $parts);
+    }
+    
+    public static function activeCheckbox($model, $attribute, $options = []) {
+        $wrapperOptions = Helper::removeArrayKey($options, 'wrapperOptions', []);
+        if(!isset($wrapperOptions['class'])) {
+            $wrapperOptions['class'] = 'checkbox';
+        }
+        $label = Helper::removeArrayKey($options, 'label', ucfirst($attribute));
+        $labelOptions = Helper::removeArrayKey($options, 'labelOptions', []);
+        $inputOptions = Helper::removeArrayKey($options, 'inputOptions', []);
+        $name = Helper::removeArrayKey($options, 'name', static::generateName($model, $attribute));
+        if($model->$attribute === TRUE || $model->$attribute === '1' || $model->$attribute === 1) {
+            $inputOptions['checked'] = TRUE;
+        }
+        return '<div '.static::generateOptions($wrapperOptions).'><label '.static::generateOptions($labelOptions).'><input type="hidden" name="'.$name.'" value="0"><input type="checkbox" '.static::generateOptions($inputOptions).' name="'.$name.'" value="1"> '.$label.'</label></div>';
     }
 }

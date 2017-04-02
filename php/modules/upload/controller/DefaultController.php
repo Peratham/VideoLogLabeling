@@ -12,7 +12,7 @@ use app\modules\upload\models\Game;
 class DefaultController extends \app\Controller
 {
     protected function access($action) {
-        return TRUE;//!\app\Application::$app->user->isGuest;
+        return !\app\Application::$app->user->isGuest;
     }
     
     public function actionIndex() {
