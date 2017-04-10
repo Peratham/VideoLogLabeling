@@ -18,7 +18,9 @@ $this->registerJsFile('lib/schema-form.min.js');
 $this->registerJsFile('lib/bootstrap-decorator.js');
 $this->registerJsFile('lib/player/mediaelement-and-player.min.js');
 $this->registerJsFile('js/field.js');
+$this->registerJsFile('js/labeling.js');
 // TODO: move JS to own/seperate file!
+/*
 $this->registerJs('
   function PeriodicPlayer(player) 
   { 
@@ -89,7 +91,7 @@ $js =<<<'JS'
         };
         reader.readAsText(input.files[0]);
       };
-      */
+      * /
       
       $scope.addLogfileToModel = function(file, data) 
       {
@@ -243,7 +245,7 @@ $js =<<<'JS'
           
           tmp = '{"labels":["fall after kick","touch the ball before kick","kick successful"],"comment":"ewfwefw"}';
         }
-      }*/
+      }* /
   
       $scope.$on('setPeriod', function(event, data) {
           $scope.model = data.labels;
@@ -318,7 +320,9 @@ JS;
 $search = ['%title%', '%save%'];
 $replace = [(empty($label)||$label==='new'?'':$label),\app\Url::to(['save'])];
 $this->registerJs(str_replace($search, $replace, $js));
+ */
 $this->registerJs('draw(0,100,0.1, 100, 200);', app\View::POS_READY);
+/*
 $this->registerCss('
     .labels a {
         margin: 5px;
@@ -327,6 +331,7 @@ $this->registerCss('
         margin-bottom:5px;
     }
 ');
+ */
 // determine video for this halftime
 $video_file = $video === NULL ? $half->getFirstVideo() : $half->getVideoById($video);
 ?>
@@ -348,7 +353,7 @@ $video_file = $video === NULL ? $half->getFirstVideo() : $half->getVideoById($vi
             </div>
             <div class="col-xs-12">
                 <div ng-controller="PlayerController">
-                    <video style="width: 100%; height: 100%;" id="player">
+                    <video class="video-player" id="player" preload="metadata">
                     <?php
                         // TODO: different resolutions|formats should be here! (not half times)
                         echo implode("\n",array_map(function($f){ return '<source src="'.$f.'">'; }, $video_file->getFiles()));
@@ -359,7 +364,7 @@ $video_file = $video === NULL ? $half->getFirstVideo() : $half->getVideoById($vi
             <div class="col-xs-12">
                 <?php
                 foreach ($half->robots as $log) {
-                    echo '<div data-timeline data-file="' . $log->getLabelFile($label) . '" data-logoffset="' . $log->log_offset . '" data-videooffset="' . $log->video_offset . '"></div>';
+                    echo '<div class="timeline" data-timeline data-file="' . $log->getLabelFile($label) . '" data-logoffset="' . $log->log_offset . '" data-videooffset="' . $log->video_offset . '"></div>';
                 }
                 ?>
             </div>
@@ -369,12 +374,13 @@ $video_file = $video === NULL ? $half->getFirstVideo() : $half->getVideoById($vi
     <!-- Soccer field -->
     <div class="col-xs-6 col-sm-4 col-lg-3 col-lg-push-2">
         <div ng-controller="DrawingController">
-            <canvas id="canvas" width="740" height="1040" style="width: 100%;"></canvas>
+            <canvas id="canvas" width="740" height="1040" class="field-drawing"></canvas>
         </div>
     </div>
     
     <!-- comment & labeling -->
     <div class="col-xs-6 col-sm-12 col-lg-2 col-lg-pull-10">
+        <span id="configuration" data-title="<?=(empty($label)||$label==='new'?'':$label)?>" data-url="<?=\app\Url::to(['save'])?>"></span>
         <div ng-controller="FormController"> 
             <form name="labels" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(labels)"></form>
         </div>
@@ -394,6 +400,6 @@ $video_file = $video === NULL ? $half->getFirstVideo() : $half->getVideoById($vi
     </div>
 </div>
 
-<div style="display:none;">
-  <img id="nao" src="nao.png" />
+<div class="hide">
+    <img id="nao" src="nao.png" />
 </div>

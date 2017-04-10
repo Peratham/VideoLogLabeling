@@ -44,7 +44,7 @@ app.controller('MainController', function($rootScope, $scope, $compile) {
   $scope.model = [];
   $scope.selected = null;
 
-  $scope.widget = {title: '<?php if($name != "blank") { echo $name; } ?>'};
+  $scope.widget = {title: $("#configuration").data("title")};
 
   /*
   $scope.openFile = function(input) {
@@ -127,7 +127,7 @@ app.controller('MainController', function($rootScope, $scope, $compile) {
       //console.log(str);
       //event.target.href = 'data:text/json;charset=utf8,' + encodeURIComponent(str);
       
-      $.post( "php/admin/save.php", {"tag" : $scope.widget.title, "file": log.file, "data" : str})
+      $.post( $("#configuration").data("url"), {"tag" : $scope.widget.title, "file": log.file, "data" : str})
        .done(function( result ) {
           console.log(result);
         });

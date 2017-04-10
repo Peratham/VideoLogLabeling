@@ -9,7 +9,7 @@ $this->beginPage();
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?=$this->title?></title>
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
-        <script src="lib/player/jquery.js"></script>
+        <script src="lib/jquery-3.2.0.js"></script>
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
         <style>body { padding-top: 50px; }</style>
         <?php $this->head(); ?>
